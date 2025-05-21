@@ -22,6 +22,7 @@ jobs:
             )
         steps:
             - name: Remove benchmark label (so it can be re-triggered afterwards)
+              if: ${{ github.event_name == 'pull_request_target' }}
               run: |
                curl --silent --fail-with-body \
                   -X DELETE \
