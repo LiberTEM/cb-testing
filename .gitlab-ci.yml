@@ -1,0 +1,8 @@
+stages:
+ - benchmark
+
+# just a placeholder for now:
+benchmark-job:
+  stage: benchmark
+  script:
+   - echo "hello world! replace me with something sensible"
