@@ -1,6 +1,7 @@
 variables:
-  SCHEDULER_PARAMETERS: '-Aclausen1 -N1 --cpus-per-task 16'
+  SCHEDULER_PARAMETERS: '-Aclausen1 -N1 --cpus-per-task 48'
 #  CUSTOM_CI_BUILDS_DIR: /path/to/preferred/dir
+
 stages:
   - benchmark
 
@@ -38,6 +39,8 @@ juwels_cpu:
   id_tokens:
     SITE_ID_TOKEN:
       aud: "https://gitlab.jsc.fz-juelich.de"
+  variables:
+    SCHEDULER_PARAMETERS: '-Aclausen1 -N1 --cpus-per-task 48 --partition devel'
   stage: benchmark
   tags:
     - juwels
@@ -56,6 +59,8 @@ juwels_gpu:
   id_tokens:
     SITE_ID_TOKEN:
       aud: "https://gitlab.jsc.fz-juelich.de"
+  variables:
+    SCHEDULER_PARAMETERS: '-Aclausen1 -N1 --cpus-per-task 48 --partition develbooster'
   stage: benchmark
   tags:
     - juwels_booster
