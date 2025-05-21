@@ -1,0 +1,13 @@
+[build-system]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "cb-testing"
+dependencies = [
+    "pytest",
+    "pytest-benchmark[histogram]",
+]
+version = "0.0.1"

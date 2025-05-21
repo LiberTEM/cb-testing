@@ -1,0 +1,34 @@
+name: benchmarks
+
+on:
+    # only trigger benchmark runs by adding a label, which is limited to users
+    # that can write to the repository:
+    pull_request_target:
+        types: [labeled]
+    push:
+
+jobs:
+    benchmarks:
+        runs-on: ubuntu-latest
+        if: >-
+            (github.repository_owner == 'LiberTEM') &&
+            (
+             (github.event_name == 'push') ||
+             (github.event_name == 'schedule') ||
+             (
+              (github.event_name == 'pull_request_target') &&
+              (contains(github.event.pull_request.labels.*.name, 'benchmark'))
+             )
+            )
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Mirror and get status
+              uses: jakob-fritz/github2lab_action@main
+              env:
+                MODE: 'all'
+                GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+                FORCE_PUSH: "true"  # ensure github and gitlab are in sync
+                GITLAB_HOSTNAME: "gitlab.jsc.fz-juelich.de"
+                GITLAB_PROJECT_ID: "7543"
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
