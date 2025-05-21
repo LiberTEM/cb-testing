@@ -1,8 +1,10 @@
 stages:
- - benchmark
+  - benchmark
 
 # just a placeholder for now:
 benchmark-job:
   stage: benchmark
+  tags:
+    - public-docker
   script:
-   - echo "hello world! replace me with something sensible"
+    - echo "hello world! replace me with something sensible"
