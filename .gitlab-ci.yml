@@ -25,6 +25,7 @@ juwels_cpu_login:
     - shell
   script:
     - module load Python/3.12.3
+    - python3 -m venv venv
     - pwd
     - ls -la
     - ./venv/bin/pip install -e .  # on the login node, this should actually work
@@ -42,6 +43,7 @@ juwels_cpu:
     - slurm
   script:
     - module load Python/3.12.3
+    - python3 -m venv venv
     - pwd
     - ls -la
     - ./venv/bin/pip install -e .  # as we are on the slurm node, this will probably fail?
@@ -59,10 +61,10 @@ juwels_gpu:
     - slurm
   script:
     - module load Python/3.12.3
+    - python3 -m venv venv
     - pwd
     - ls -la
     - ./venv/bin/pip install -e .  # as we are on the slurm node, this will probably fail?
     - ./venv/bin/pytest benchmarks/
-
 
 # vim:ts=2:sw=2
