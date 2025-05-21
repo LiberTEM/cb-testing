@@ -3,8 +3,13 @@ stages:
 
 # just a placeholder for now:
 benchmark-job:
+  image: debian:stable-slim
   stage: benchmark
   tags:
     - public-docker
   script:
-    - echo "hello world! replace me with something sensible"
+    - sudo apt install python3 python3-venv
+    - python3 -m venv venv
+    - ./venv/bin/pip install uv
+    - ./venv/bin/uv pip install -e .
+    - ./venv/bin/pytest benchmarks/
