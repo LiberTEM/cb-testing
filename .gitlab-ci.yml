@@ -1,3 +1,6 @@
+variables:
+  SCHEDULER_PARAMETERS: '-Aclausen1 -N1 --cpus-per-task 16'
+#  CUSTOM_CI_BUILDS_DIR: /path/to/preferred/dir
 stages:
   - benchmark
 
