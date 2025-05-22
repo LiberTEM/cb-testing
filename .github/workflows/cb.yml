@@ -32,7 +32,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
             - name: Mirror and get status
-              uses: jakob-fritz/github2lab_action@Iss42_exit
+              uses: jakob-fritz/github2lab_action@main
               env:
                 MODE: 'all'
                 GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
