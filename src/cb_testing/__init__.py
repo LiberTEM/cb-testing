@@ -2,4 +2,4 @@ import time
 
 
 def f():
-    time.sleep(0.3)
+    time.sleep(0.31)
