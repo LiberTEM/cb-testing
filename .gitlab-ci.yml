@@ -75,8 +75,10 @@ juwels_cpu_reference_run:
     - slurm
   before_script:
     - module load git
+    - git remote -v
     - git fetch origin main
     - git checkout main
+    - git log -n 10 --oneline
   script:
     - module load Python/3.12.3
     - python3 -m venv venv
