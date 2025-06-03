@@ -74,6 +74,7 @@ juwels_cpu_reference_run:
     - compute
     - slurm
   before_script:
+    - module load git
     - git fetch origin main
     - git checkout main
   script:
