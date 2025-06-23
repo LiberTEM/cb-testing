@@ -18,8 +18,11 @@ docker-job:
   script:
     - apt-get update && apt-get -y install python3 python3-venv
     - python3 -m venv venv
-    - ./venv/bin/pip install -e .
-    - ./venv/bin/pytest benchmarks/
+    - ./venv/bin/pip install -e . tox
+    - ./venv/bin/tox
+  artifacts:
+    paths:
+      - bench-results.json
 
 juwels_cpu_login:
   id_tokens:
@@ -36,8 +39,11 @@ juwels_cpu_login:
     - python3 -m venv venv
     - pwd
     - ls -la
-    - ./venv/bin/pip install -e .  # on the login node, this should actually work
-    - ./venv/bin/pytest benchmarks/
+    - ./venv/bin/pip install -e . tox
+    - ./venv/bin/tox
+  artifacts:
+    paths:
+      - bench-results.json
 
 juwels_cpu:
   id_tokens:
@@ -56,8 +62,11 @@ juwels_cpu:
     - python3 -m venv venv
     - pwd
     - ls -la
-    - ./venv/bin/pip install -e .
-    - ./venv/bin/pytest benchmarks/
+    - ./venv/bin/pip install -e . tox
+    - ./venv/bin/tox
+  artifacts:
+    paths:
+      - bench-results.json
 
 juwels_cpu_reference_run:
   id_tokens:
@@ -84,8 +93,11 @@ juwels_cpu_reference_run:
     - python3 -m venv venv
     - pwd
     - ls -la
-    - ./venv/bin/pip install -e .
-    - ./venv/bin/pytest benchmarks/
+    - ./venv/bin/pip install -e . tox
+    - ./venv/bin/tox
+  artifacts:
+    paths:
+      - bench-results.json
 
 juwels_gpu:
   id_tokens:
@@ -104,7 +116,10 @@ juwels_gpu:
     - python3 -m venv venv
     - pwd
     - ls -la
-    - ./venv/bin/pip install -e .  # as we are on the slurm node, this will probably fail?
-    - ./venv/bin/pytest benchmarks/
+    - ./venv/bin/pip install -e . tox
+    - ./venv/bin/tox
+  artifacts:
+    paths:
+      - bench-results.json
 
 # vim:ts=2:sw=2
