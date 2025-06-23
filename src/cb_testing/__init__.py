@@ -2,8 +2,8 @@ import time
 
 
 def f():
-    time.sleep(0.31)
+    time.sleep(0.031)
 
 
 def g():
-    time.sleep(0.32)
+    time.sleep(0.032)
