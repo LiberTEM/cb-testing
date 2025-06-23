@@ -1,8 +1,0 @@
-requires = ["tox>=4"]
-env_list = ["benchmarks"]
-
-[env_run_base]
-
-[env.benchmarks]
-description = "run benchmarks"
-commands = [["pytest", { replace = "posargs", default=["benchmarks/"], extend = true }, "--benchmark-save-data", "--benchmark-json=bench-results.json"]]
