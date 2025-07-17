@@ -63,10 +63,10 @@ jobs:
                   -H "Accept: application/vnd.github+json" \
                   -H "Authorization: Bearer $TRIGGER_TOKEN" \
                   https://api.github.com/repos/LiberTEM/benchmarks/actions/workflows/collect-and-render.yml/dispatches \
-                  -d '{
-                    "ref": "master",
-                    "inputs": {
-                      "run_id": "$RUN_ID",
-                      "source_repo": "LiberTEM/cb-testing"
+                  -d "{
+                    \"ref\": \"master\",
+                    \"inputs\": {
+                      \"run_id\": \"$RUN_ID\",
+                      \"source_repo\": \"LiberTEM/cb-testing\"
                     }
-                  }'
+                  }"
