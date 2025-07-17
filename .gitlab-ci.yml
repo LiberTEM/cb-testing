@@ -23,6 +23,7 @@ juwels_cpu:
     - slurm
   script:
     - module load Python/3.12.3
+    - module load git
     - python3 -m venv venv
     - pwd
     - ls -la
@@ -56,6 +57,7 @@ juwels_cpu_reference_run:
     - git log -n 10 --oneline
     - git rev-parse HEAD
   script:
+    - module load git
     - module load Python/3.12.3
     - python3 -m venv venv
     - pwd
