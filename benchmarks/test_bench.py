@@ -2,7 +2,7 @@ import pytest
 from cb_testing import f, g
 
 
-def test_bench_f(benchmark):
+def test_bench(benchmark):
     benchmark(f)
 
 
