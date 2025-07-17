@@ -86,8 +86,9 @@ juwels_cpu_reference_run:
     - module load git
     - git remote -v
     - git remote set-url origin https://github.com/LiberTEM/cb-testing.git
+    - git remote -v
     - git fetch origin main
-    - git checkout main
+    - git checkout origin/main
     - git log -n 10 --oneline
     - git rev-parse HEAD
   script:
