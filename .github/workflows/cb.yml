@@ -40,3 +40,17 @@ jobs:
                 GITLAB_HOSTNAME: "gitlab.jsc.fz-juelich.de"
                 GITLAB_PROJECT_ID: "7543"
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12'
+                cache: 'pip'
+            - name: Compare benchmark results
+              if: github.event.pull_request
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                PR: ${{ github.event.pull_request.html_url }}            
+              run: |
+                python3 -m venv venv
+                ./venv/bin/pip install click
+                ./venv/bin/python3 compare.py ./artifacts/juwels_cpu_reference_run.zip ./artifacts/juwels_cpu.zip | gh pr comment $PR -F -

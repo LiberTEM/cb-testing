@@ -19,6 +19,12 @@ def extract_nested(outer_zipfile: zipfile.ZipFile, inner_zipname: str, filename:
             return f_inner.read(name=filename)
 
 
+def extract_and_parse(zip_fname: str, filename: str) -> "BenchmarkResults":
+    with zipfile.ZipFile(file=zip_fname, mode='r') as zf:
+        contents = zf.read(filename)
+    return BenchmarkResults.from_json(contents.decode("utf8"))
+
+
 class RawResult(typing.TypedDict):
     all_data: dict[str, typing.Any]  # as given by pytest-benchmark
     timings: list[float]
@@ -71,7 +77,7 @@ class ComparisonResult:
 {self._get_removed_warning()}
 {self._get_change_summary()}
 
-## Changed benchmarks
+## Changed benchmark results
 {self._get_change_details()}
 """
 
@@ -80,7 +86,7 @@ class ComparisonResult:
             return ""
         return f"""
 > [!WARNING]
-> The following benchmarks have been removed: {", ".join(self.removed)}
+> The following benchmarks have been removed: {", ".join([f"`{n}`" for n in self.removed])}
 > Take care when renaming benchmarks, and re-consider removal of old benchmarks!
         """
 
@@ -89,7 +95,7 @@ class ComparisonResult:
             return ""
         return f"""
 > [!NOTE]
-> This PR adds the following new benchmarks: {", ".join(self.new)}
+> The following benchmarks are new: {", ".join([f"`{n}`" for n in self.new])}
         """
 
     def _get_change_summary(self):
@@ -159,18 +165,14 @@ class BenchmarkResults:
 
 
 @click.command
-@click.argument("artifacts_path", type=click.Path())
-@click.argument("name_old")
-@click.argument("name_new")
-def main(artifacts_path, name_old, name_new):
-    print(f"reading benchmark results {name_old} and {name_new} from {artifacts_path}")
-    with zipfile.ZipFile(file=artifacts_path, mode='r') as f:
-        res_old = extract_nested(outer_zipfile=f, inner_zipname=name_old, filename="bench-results.json").decode("utf8")
-        res_new = extract_nested(outer_zipfile=f, inner_zipname=name_new, filename="bench-results.json").decode("utf8")
-        b_old = BenchmarkResults.from_json(res_old)
-        b_new = BenchmarkResults.from_json(res_new)
-        diff = b_new.compare_to(b_old)
-        print(diff.get_summary())
+@click.argument("name_old", type=click.Path())
+@click.argument("name_new", type=click.Path())
+def main(name_old, name_new):
+    b_old = extract_and_parse(zip_fname=name_old, filename="bench-results.json")
+    b_new = extract_and_parse(zip_fname=name_new, filename="bench-results.json")
+    diff = b_new.compare_to(b_old)
+    print(diff.get_summary())
+
 
 if __name__ == "__main__":
     main()
