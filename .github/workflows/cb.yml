@@ -53,3 +53,20 @@ jobs:
                 python3 -m venv venv &&
                 ./venv/bin/pip install click scipy &&
                 ./venv/bin/python3 compare.py ./artifacts/juwels_cpu_reference_run.zip ./artifacts/juwels_cpu.zip | gh pr comment $PR -F -
+            - name: Trigger artifact collection
+              if: ${{ github.event_name == 'push' }}
+              env:
+                TRIGGER_TOKEN: ${{ secrets.TRIGGER_BENCH_GH_TOKEN }}
+                RUN_ID: ${{ github.run_id }}
+              run: |
+                curl -X POST \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer $TRIGGER_TOKEN" \
+                  https://api.github.com/repos/LiberTEM/benchmarks/actions/workflows/collect-and-render.yml/dispatches \
+                  -d '{
+                    "ref": "master",
+                    "inputs": {
+                      "run_id": "$RUN_ID",
+                      "source_repo": "LiberTEM/cb-testing"
+                    }
+                  }'
