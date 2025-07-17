@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-import typing
 import io
-import zipfile
-import click
 import json
+import typing
+import zipfile
+
+import click
 from scipy.stats import ttest_ind
 
 
