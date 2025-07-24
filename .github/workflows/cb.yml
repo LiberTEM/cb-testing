@@ -1,10 +1,11 @@
 name: benchmarks
 
 on:
-    # only trigger benchmark runs by adding a label, which is limited to users
+    # trigger benchmark runs by adding a label, which is limited to users
     # that can write to the repository:
     pull_request_target:
         types: [labeled]
+    # additionally trigger on pushes, meaning when PRs are merged:
     push:
 
 jobs:
@@ -50,6 +51,7 @@ jobs:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 PR: ${{ github.event.pull_request.html_url }}            
               run: >-
+                wget https://raw.githubusercontent.com/LiberTEM/benchmarks/refs/heads/main/utils/compare.py &&
                 python3 -m venv venv &&
                 ./venv/bin/pip install click scipy &&
                 ./venv/bin/python3 compare.py ./artifacts/juwels_cpu_reference_run.zip ./artifacts/juwels_cpu.zip | gh pr comment $PR -F -
